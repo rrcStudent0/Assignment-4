@@ -1,8 +1,8 @@
 """
 Description: A program that reads through transaction records and reports the results.
 Author: ACE Faculty
-Edited by: {Student Name}
-Date: {Date}
+Edited by: {Isaiah Nepinak}
+Date: {2024-10-17}
 Usage: This program will read transaction data from a .csv file, summarize and 
 report the results.
 """
