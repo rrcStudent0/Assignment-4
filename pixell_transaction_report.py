@@ -20,9 +20,9 @@ error_message = ''
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
-
-with open('bank_data.csv', 'r') as csv_file:
-    reader = csv.reader(csv_file)
+try:
+    with open('bank_data.csv', 'r') as csv_file:
+        reader = csv.reader(csv_file)
     for row in reader:
         # Reset valid record and error message for each iteration
         valid_record = True
@@ -34,10 +34,17 @@ with open('bank_data.csv', 'r') as csv_file:
         # Extract the transaction type from the second column
         transaction_type = row[1]
         ### VALIDATION 1 ###
-
+        transaction_type = row[1]
+        if transaction_type not in valid_transaction_types:
+            valid_record = False
+            error_message += f"Invalid Type '{transaction_type}' for customer {customer_id}."
         # Extract the transaction amount from the third column
         ### VALIDATION 2 ###
-        transaction_amount = float(row[2])
+        try:
+            transaction_amount = float(row[2])
+        except ValueError:
+            valid_record = False
+            error_message += f"Not a numeric transaction '{row[2]}' for customer {customer_id}."
 
         if valid_record:
             # Initialize the customer's account balance if it doesn't already exist
@@ -56,7 +63,11 @@ with open('bank_data.csv', 'r') as csv_file:
             
             # Record  transactions in the customer's transaction history
             customer_data[customer_id]['transactions'].append((transaction_amount, transaction_type))
-        
+except FileNotFoundError as e:
+    print("ERROR: File not found! {e}")
+
+except Exception as e:
+    print("ERROR: An error has occured. {e}")      
         ### COLLECT INVALID RECORDS ###
         
 
